@@ -3,11 +3,14 @@ package com.vinicius.financeiro.api.controller;
 import com.vinicius.financeiro.api.model.Categoria;
 import com.vinicius.financeiro.api.repository.CategoriaRepositoy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/categorias")
@@ -19,6 +22,22 @@ public class CategoriaController {
     @GetMapping
     public List<Categoria> listar() {
         return categoriaRepositoy.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Categoria> buscarPeloId(@PathVariable Long id) {
+        return categoriaRepositoy.findById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria, HttpServletResponse response) {
+        Categoria categoriaSalva = categoriaRepositoy.save(categoria);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+                .buildAndExpand(categoriaSalva.getId()).toUri();
+        response.setHeader("Location", uri.toASCIIString());
+
+        return ResponseEntity.created(uri).body(categoriaSalva);
     }
 
 }
