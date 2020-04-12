@@ -25,8 +25,9 @@ public class CategoriaController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Categoria> buscarPeloId(@PathVariable Long id) {
-        return categoriaRepositoy.findById(id);
+    public ResponseEntity<Categoria> buscarPeloId(@PathVariable Long id) {
+        Optional<Categoria> categoria = categoriaRepositoy.findById(id);
+        return categoria.isPresent() ? ResponseEntity.ok(categoria.get()) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
