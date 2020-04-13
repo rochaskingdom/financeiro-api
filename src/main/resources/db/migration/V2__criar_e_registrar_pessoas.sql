@@ -10,7 +10,7 @@ CREATE TABLE PESSOA(
     "CEP"                       VARCHAR(50),
     "CIDADE"                    VARCHAR(50),
     "ESTADO"                    VARCHAR(50),
-    "ATIVO"                     BOOLEAN       NOT NULL DEFAULT FALSE,
+    "ATIVO"                     BOOLEAN       NOT NULL,
     CONSTRAINT PESSOA_PK PRIMARY KEY (ID_PESSOA)
 );
 
