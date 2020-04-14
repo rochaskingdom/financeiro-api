@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Setter
 @EqualsAndHashCode
 @Entity
-@Table(name = "categoria")
+@Table(name = "CATEGORIA")
 public class Categoria {
 
     @Id
