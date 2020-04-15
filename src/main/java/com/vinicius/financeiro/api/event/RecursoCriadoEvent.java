@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 public class RecursoCriadoEvent extends ApplicationEvent {
 
     private HttpServletResponse response;
-    private Long id;
+    private Long codigo;
 
-    public RecursoCriadoEvent(Object source, HttpServletResponse response, Long id) {
+    public RecursoCriadoEvent(Object source, HttpServletResponse response, Long codigo) {
         super(source);
         this.response = response;
-        this.id = id;
+        this.codigo = codigo;
     }
 }

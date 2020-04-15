@@ -18,8 +18,8 @@ public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIA_SEQ")
     @SequenceGenerator(name = "CATEGORIA_SEQ", sequenceName = "CATEGORIA_SEQ", allocationSize = 1)
-    @Column(name = "ID_CATEGORIA")
-    private Long id;
+    @Column(name = "CODIGO")
+    private Long codigo;
 
     @NotNull
     @Size(min = 3, max = 20)

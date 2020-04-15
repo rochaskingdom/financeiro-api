@@ -18,8 +18,8 @@ public class Lancamento {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "LANCAMENTO_SEQ")
     @SequenceGenerator(name = "LANCAMENTO_SEQ", sequenceName = "LANCAMENTO_SEQ", allocationSize = 1)
-    @Column(name = "ID_LANCAMENTO")
-    private Long id;
+    @Column(name = "CODIGO")
+    private Long codigo;
 
     @Column(name = "DESCRICAO")
     private String descricao;
@@ -41,11 +41,11 @@ public class Lancamento {
     private TipoLancamento tipo;
 
     @ManyToOne
-    @JoinColumn(name = "ID_CATEGORIA")
+    @JoinColumn(name = "CODIGO_CATEGORIA")
     private Categoria categoria;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PESSOA")
+    @JoinColumn(name = "CODIGO_PESSOA")
     private Pessoa pessoa;
 }
 

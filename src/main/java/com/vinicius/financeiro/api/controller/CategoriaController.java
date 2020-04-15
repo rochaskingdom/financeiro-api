@@ -29,9 +29,9 @@ public class CategoriaController {
         return categoriaRepositoy.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Categoria> buscarPeloId(@PathVariable Long id) {
-        Optional<Categoria> categoria = categoriaRepositoy.findById(id);
+    @GetMapping("/{codigo}")
+    public ResponseEntity<Categoria> buscarPeloId(@PathVariable Long codigo) {
+        Optional<Categoria> categoria = categoriaRepositoy.findById(codigo);
         return categoria.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -39,15 +39,15 @@ public class CategoriaController {
     public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
         Categoria categoriaSalva = categoriaRepositoy.save(categoria);
 
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getId()));
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getCodigo()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long id) {
-        categoriaRepositoy.deleteById(id);
+    public void remover(@PathVariable Long codigo) {
+        categoriaRepositoy.deleteById(codigo);
     }
 
 }

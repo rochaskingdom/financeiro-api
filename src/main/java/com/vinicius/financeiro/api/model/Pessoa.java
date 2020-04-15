@@ -18,8 +18,8 @@ public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PESSOA_SEQ")
     @SequenceGenerator(name = "PESSOA_SEQ", sequenceName = "PESSOA_SEQ", allocationSize = 1)
-    @Column(name = "ID_PESSOA")
-    private Long id;
+    @Column(name = "CODIGO")
+    private Long codigo;
 
     @NotNull
     @Size(min = 3, max = 20)

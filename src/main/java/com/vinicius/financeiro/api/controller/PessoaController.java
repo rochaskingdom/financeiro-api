@@ -32,35 +32,35 @@ public class PessoaController {
         return pessoaRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Pessoa> buscaPeloId(@PathVariable Long id) {
-        Pessoa pessoa = pessoaRepository.findById(id).orElse(null);
+    @GetMapping("/{codigo}")
+    public ResponseEntity<Pessoa> buscaPeloId(@PathVariable Long codigo) {
+        Pessoa pessoa = pessoaRepository.findById(codigo).orElse(null);
         return pessoa != null ? ResponseEntity.ok(pessoa) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public ResponseEntity<Pessoa> criar(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {
         Pessoa pessoaSalva = pessoaRepository.save(pessoa);
-        publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getId()));
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getCodigo()));
         return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSalva);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{codigo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long id) {
-        pessoaRepository.deleteById(id);
+    public void remover(@PathVariable Long codigo) {
+        pessoaRepository.deleteById(codigo);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Pessoa> atualizar(@PathVariable Long id, @Valid @RequestBody Pessoa pessoa) {
-        Pessoa pessoaSalva = pessoaService.atualizar(id, pessoa);
+    @PutMapping("/{codigo}")
+    public ResponseEntity<Pessoa> atualizar(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa) {
+        Pessoa pessoaSalva = pessoaService.atualizar(codigo, pessoa);
         return ResponseEntity.ok(pessoaSalva);
     }
 
-    @PutMapping("/{id}/ativo")
+    @PutMapping("/{codigo}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizarPropriedadeAtivo(@PathVariable Long id, @RequestBody Boolean ativo) {
-        pessoaService.atualizarPropriedadeAtivo(id, ativo);
+    public void atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
+        pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
     }
 
 }
