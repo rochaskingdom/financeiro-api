@@ -1,7 +1,7 @@
 CREATE SEQUENCE PESSOA_SEQ;
 
 CREATE TABLE PESSOA(
-    "CODIGO"                 NUMBER(19, 0) NOT NULL,
+    "CODIGO"                    BIGINT(20) NOT NULL,
     "NOME"                      VARCHAR(50)   NOT NULL,
     "LOGRADOURO"                VARCHAR(50),
     "NUMERO"                    VARCHAR(50),
