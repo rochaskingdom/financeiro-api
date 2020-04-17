@@ -1,5 +1,6 @@
 package com.vinicius.financeiro.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,4 +34,10 @@ public class Pessoa {
     @NotNull
     @Column(name = "ATIVO")
     private boolean ativo;
+
+    @JsonIgnore
+    @Transient
+    public boolean isinativo() {
+        return !this.ativo;
+    }
 }
