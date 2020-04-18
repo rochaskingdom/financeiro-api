@@ -4,6 +4,7 @@ import com.vinicius.financeiro.api.event.RecursoCriadoEvent;
 import com.vinicius.financeiro.api.exceptionhandler.FinanceiroExceptionHandler;
 import com.vinicius.financeiro.api.model.Lancamento;
 import com.vinicius.financeiro.api.repository.LancamentoRepository;
+import com.vinicius.financeiro.api.repository.filter.LancamentoFilter;
 import com.vinicius.financeiro.api.service.LancamentoService;
 import com.vinicius.financeiro.api.service.exception.PessoaInexistenteOuInativaException;
 import lombok.AllArgsConstructor;
@@ -38,8 +39,8 @@ public class LancamentoController {
     private final MessageSource messageSource;
 
     @GetMapping
-    public List<Lancamento> listar() {
-        return lancamentoRepository.findAll();
+    public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
+        return lancamentoRepository.filtrar(lancamentoFilter);
     }
 
     @GetMapping("/{codigo}")
@@ -53,6 +54,12 @@ public class LancamentoController {
         Lancamento lancamentoSalvo = lancamentoService.salvar(lancamento);
         publisher.publishEvent(new RecursoCriadoEvent(this, response, lancamentoSalvo.getCodigo()));
         return ResponseEntity.status(HttpStatus.CREATED).body(lancamento);
+    }
+
+    @DeleteMapping("/{codigo}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Long codigo) {
+        lancamentoRepository.deleteById(codigo);
     }
 
     @ExceptionHandler({PessoaInexistenteOuInativaException.class})
