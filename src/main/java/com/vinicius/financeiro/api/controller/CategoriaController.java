@@ -1,14 +1,16 @@
 package com.vinicius.financeiro.api.controller;
 
+import com.vinicius.financeiro.api.event.RecursoCriadoEvent;
 import com.vinicius.financeiro.api.model.Categoria;
 import com.vinicius.financeiro.api.repository.CategoriaRepositoy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,26 +21,33 @@ public class CategoriaController {
     @Autowired
     private CategoriaRepositoy categoriaRepositoy;
 
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
     @GetMapping
     public List<Categoria> listar() {
         return categoriaRepositoy.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Categoria> buscarPeloId(@PathVariable Long id) {
-        Optional<Categoria> categoria = categoriaRepositoy.findById(id);
+    @GetMapping("/{codigo}")
+    public ResponseEntity<Categoria> buscarPeloId(@PathVariable Long codigo) {
+        Optional<Categoria> categoria = categoriaRepositoy.findById(codigo);
         return categoria.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria, HttpServletResponse response) {
+    public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
         Categoria categoriaSalva = categoriaRepositoy.save(categoria);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
-                .buildAndExpand(categoriaSalva.getId()).toUri();
-        response.setHeader("Location", uri.toASCIIString());
+        publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getCodigo()));
 
-        return ResponseEntity.created(uri).body(categoriaSalva);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
+    }
+
+    @DeleteMapping("/{codigo}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long codigo) {
+        categoriaRepositoy.deleteById(codigo);
     }
 
 }
