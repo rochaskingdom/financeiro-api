@@ -1,5 +1,6 @@
 package com.vinicius.financeiro.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,9 +29,11 @@ public class Lancamento {
 
     @NotNull
     @Column(name = "DATA_VENCIMENTO")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataVencimento;
 
     @Column(name = "DATA_PAGAMENTO")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataPagamento;
 
     @NotNull

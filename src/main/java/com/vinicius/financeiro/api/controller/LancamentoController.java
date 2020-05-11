@@ -47,8 +47,9 @@ public class LancamentoController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Lancamento> buscaPeloId(@PathVariable Long codigo) {
-        Lancamento lancamento = lancamentoRepository.findById(codigo).orElse(null);
-        return lancamento != null ? ResponseEntity.ok(lancamento) : ResponseEntity.notFound().build();
+        return lancamentoRepository.findById(codigo)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

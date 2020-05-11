@@ -24,7 +24,6 @@ public class LancamentoService {
         if (pessoa == null || pessoa.isinativo()) {
             throw new PessoaInexistenteOuInativaException();
         }
-
         return lancamentoRepository.save(lancamento);
     }
 }

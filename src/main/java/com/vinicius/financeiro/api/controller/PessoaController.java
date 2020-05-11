@@ -34,8 +34,9 @@ public class PessoaController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Pessoa> buscaPeloId(@PathVariable Long codigo) {
-        Pessoa pessoa = pessoaRepository.findById(codigo).orElse(null);
-        return pessoa != null ? ResponseEntity.ok(pessoa) : ResponseEntity.notFound().build();
+        return pessoaRepository.findById(codigo)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

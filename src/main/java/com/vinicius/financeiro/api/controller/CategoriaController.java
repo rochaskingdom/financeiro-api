@@ -31,16 +31,15 @@ public class CategoriaController {
 
     @GetMapping("/{codigo}")
     public ResponseEntity<Categoria> buscarPeloId(@PathVariable Long codigo) {
-        Optional<Categoria> categoria = categoriaRepositoy.findById(codigo);
-        return categoria.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return categoriaRepositoy.findById(codigo)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
         Categoria categoriaSalva = categoriaRepositoy.save(categoria);
-
         publisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaSalva.getCodigo()));
-
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
     }
 
