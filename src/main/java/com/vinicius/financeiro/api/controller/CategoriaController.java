@@ -32,7 +32,7 @@ public class CategoriaController {
     @GetMapping("/{codigo}")
     public ResponseEntity<Categoria> buscarPeloId(@PathVariable Long codigo) {
         return categoriaRepositoy.findById(codigo)
-                .map(ResponseEntity::ok)
+                .map(categoria -> ResponseEntity.ok(categoria))
                 .orElse(ResponseEntity.notFound().build());
     }
 

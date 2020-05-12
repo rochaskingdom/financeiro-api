@@ -1,14 +1,10 @@
-CREATE SEQUENCE CATEGORIA_SEQ;
+CREATE TABLE categoria (
+	codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE CATEGORIA(
-    "CODIGO"             BIGINT(20) NOT NULL,
-    "NOME"               VARCHAR(50)  NOT NULL,
-    CONSTRAINT CATEGORIA_PK PRIMARY KEY (CODIGO),
-);
-
-INSERT INTO CATEGORIA (CODIGO, NOME) VALUES (CATEGORIA_SEQ.nextval, 'Lazer');
-INSERT INTO CATEGORIA (CODIGO, NOME) VALUES (CATEGORIA_SEQ.nextval, 'Alimentação');
-INSERT INTO CATEGORIA (CODIGO, NOME) VALUES (CATEGORIA_SEQ.nextval, 'Supermercado');
-INSERT INTO CATEGORIA (CODIGO, NOME) VALUES (CATEGORIA_SEQ.nextval, 'Farmácia');
-INSERT INTO CATEGORIA (CODIGO, NOME) VALUES (CATEGORIA_SEQ.nextval, 'Outros');
-INSERT INTO CATEGORIA (CODIGO, NOME) VALUES (CATEGORIA_SEQ.nextval, 'Teste');
+INSERT INTO categoria (nome) values ('Lazer');
+INSERT INTO categoria (nome) values ('Alimentação');
+INSERT INTO categoria (nome) values ('Supermercado');
+INSERT INTO categoria (nome) values ('Farmácia');
+INSERT INTO categoria (nome) values ('Outros');
