@@ -30,11 +30,11 @@ public class PessoaController {
     @Autowired
     private ApplicationEventPublisher publisher;
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
-    public List<Pessoa> listar() {
-        return pessoaRepository.findAll();
-    }
+//    @GetMapping
+//    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+//    public List<Pessoa> listar() {
+//        return pessoaRepository.findAll();
+//    }
 
     @GetMapping("/{codigo}")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
