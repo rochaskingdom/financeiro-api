@@ -84,4 +84,15 @@ public class LancamentoController {
         List<FinanceiroExceptionHandler.Erro> erros = Arrays.asList(new FinanceiroExceptionHandler.Erro(mensagemUsuario, mensagemDesenvolvedor));
         return ResponseEntity.badRequest().body(erros);
     }
+
+    @PutMapping("/{codigo}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO')")
+    public ResponseEntity<Lancamento> atualizar(@PathVariable Long codigo, @Valid @RequestBody Lancamento lancamento) {
+        try {
+            Lancamento lancamentoSalvo = lancamentoService.atualizar(codigo, lancamento);
+            return ResponseEntity.ok(lancamentoSalvo);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
